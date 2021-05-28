@@ -52,6 +52,7 @@ I could also implement unit tests in the front-end and in the back-end and a dec
 - [vue-cli 3.x (vue-cli is not required but recommended)](https://v3.vuejs.org/guide/installation.html#release-notes)
 - [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [sequelize-cli (required to run migrations but can be installed locally with --save-dev option)](https://sequelize.org/master/manual/migrations.html)
+- [nodemon (require for hot reload and dev purposes can be installed globally or locally with --save-dev option)](https://www.npmjs.com/package/nodemon)
 
 <a name="CLONE"/>
 
