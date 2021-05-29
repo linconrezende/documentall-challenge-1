@@ -9,16 +9,16 @@ File.prototype.data = function () {
   var _val = Object.assign({}, this.get())
   return defaultDelete(_val)
 }
-const PhoneMessages = DB.define('phone_messages', require('./_definitions/Model_Phone_Message'), {underscored: true})
-PhoneMessages.prototype.data = function () {
+const PhoneMessage = DB.define('phone_messages', require('./_definitions/Model_Phone_Message'), {underscored: true})
+PhoneMessage.prototype.data = function () {
   var _val = Object.assign({}, this.get())
   return defaultDelete(_val)
 }
 
-File.hasMany(PhoneMessages)
-// PhoneMessages.belongsTo(File)
+File.hasMany(PhoneMessage)
+// PhoneMessage.belongsTo(File)
 
 module.exports = {
   File: File,
-  PhoneMessages: PhoneMessages
+  PhoneMessage: PhoneMessage
 }
