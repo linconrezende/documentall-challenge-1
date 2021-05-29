@@ -8,7 +8,7 @@ const _list = (params, pagination) => {
     (async () => {
       try {
         const lstDbObj = await File.findAll({
-          include: [Region],
+          include: [],
           order: [
             (params && params.order ? params.order : ['id', 'ASC'])
           ],
