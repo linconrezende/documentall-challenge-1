@@ -14,5 +14,18 @@ export default {
   components: {
     HelloWorld,
   },
+  created() {
+    // var vm = this
+  },
+  methods: {
+    uploadFile() {
+      var vm = this
+      vm.$API.Request('POST', 'file/uploadAndValidate', {}).then(result => {
+        console.debug(result)
+      }).catch(error => {
+        console.debug(error)
+      })
+    }
+  },
 };
 </script>
