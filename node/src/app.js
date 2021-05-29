@@ -7,7 +7,7 @@ const Render = require('./controllers/resultController')
 require('./database/connection')
 
 // Definição dos routes
-// const fileRoutes = require('./routes/file') // uncomment when the file is created
+const fileRoutes = require('./routes/file') // uncomment when the file is created
 
 const app = express()
 
@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 })
 
 // Routes middleware to handle requests
-// app.use('/file', fileRoutes) // I will uncomment when I create the file
+app.use('/file', fileRoutes) // I will uncomment when I create the file
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
