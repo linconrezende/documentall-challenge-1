@@ -33,5 +33,12 @@ router.delete('/delete', (req, res, next) => {
     next(error)
   })
 })
+router.post('/uploadAndValidate', (req, res, next) => {
+  fileController._uploadAndValidate(req.files).then(obj => {
+    Render.Res(res, 200, 'Uploaded', obj)
+  }).catch(error => {
+    next(error)
+  })
+})
 
 module.exports = router
