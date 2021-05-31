@@ -35,7 +35,7 @@
       </v-col>
       <v-col cols="12" class="text-center pt-5">
         <p class="mb-5 display-1">Está pronto para prosseguir? &#129300;</p>
-        <v-btn large @click="cancel()">Cancelar<v-icon class="ml-2">fas fa-times</v-icon></v-btn>
+        <v-btn :disabled="savingList" large @click="cancel()">Cancelar<v-icon class="ml-2">fas fa-times</v-icon></v-btn>
         <v-btn :disabled="savingList" large class="ml-5" color="primary" @click="saveLists()">Salvar lista(s)<v-icon class="ml-2">fas fa-check</v-icon></v-btn>
       </v-col>
     </v-row>
