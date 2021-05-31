@@ -2,7 +2,7 @@ import Vue from "vue";
 const vm = Vue.prototype;
 const e = process.env;
 const api_url = `${e.VUE_APP_API_PROTOCOL}://${e.VUE_APP_API_ROOT}`;
-const request = (_method, _api, _data) => {
+const request = (_method, _api, _data, _headers) => {
   console.debug(_method, _api, _data);
   return new Promise((resolve, reject) => {
     vm.axios({
@@ -10,6 +10,7 @@ const request = (_method, _api, _data) => {
       url: `${api_url}/${_api}`,
       crossDomain: true,
       // headers: { Authorization: `` }, // NO NEEDED FOR NOW, we don't use any auth
+      headers: _headers || null,
       data: _data,
     })
       .then(function (response) {
