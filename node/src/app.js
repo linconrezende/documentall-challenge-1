@@ -3,6 +3,9 @@ const path = require('path')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const Render = require('./controllers/resultController')
+const cors = require('cors')
+const fileUpload = require('express-fileupload')
+
 // DB Connection
 require('./database/connection')
 
@@ -14,6 +17,9 @@ const app = express()
 
 // Using morgan to log
 app.use(logger('dev'))
+app.use(express.static('public')) //to access the files in public folder
+app.use(cors())
+app.use(fileUpload())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())

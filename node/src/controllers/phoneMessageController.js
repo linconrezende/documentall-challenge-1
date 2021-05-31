@@ -33,10 +33,11 @@ const _create = (params) => {
     (async () => {
       try {
         if (Array.isArray(params)) {
-          let lstNewObj = await PhoneMessage.bulkCreate(params)
+          let lstNewObj = await PhoneMessage.bulkCreate(await _validate(params))
           resolve(lstNewObj)
         } else {
-          let newObj = await PhoneMessage.create({...params})
+          // validate before saving
+          let newObj = await PhoneMessage.create(await _validate({...params}))
           resolve(newObj)
         }
       } catch (error) {
@@ -68,6 +69,46 @@ const _update = (params) => {
     })()
   })
 }
+const _validate = (params) => {
+  return new Promise((resolve, reject) => {
+    (async () => {
+      try {
+        if (Array.isArray(params)) {
+          let lstNewObj = []
+          params.forEach(obj => {lstNewObj.push(internalValidation(obj))})
+          resolve(lstNewObj)
+        } else {
+          resolve(internalValidation(params))
+        }
+      } catch (error) {
+        reject(error)
+      }
+    })()
+  })
+  function internalValidation (object) {
+    let invalidReasons = []
+    if (!object.phone)
+      invalidReasons.push('Phone number not found')
+    else {
+      if (/\D/.test(object.phone)) invalidReasons.push('Non digits characters found')
+      if (object.phone.length != 11) invalidReasons.push('Expected to be 11 digits')
+      if (object.phone[2] !== '9') invalidReasons.push('Third character is not a 9')
+    }
+    if (!object.message)
+      invalidReasons.push('Message not found')
+    else {
+      if (object.message.length <= 0 && object.message.length > 160) invalidReasons.push('Expected to be from 1 to 160 characters.')
+    }
+    // object.valid = invalidReasons.length == 0 ? true : false
+    if (invalidReasons.length > 0) {
+      object.valid = false
+      object.invalidReasons = invalidReasons
+    } else {
+      object.valid = true
+    }
+    return object
+  }
+}
 const _delete = (params) => {
   return new Promise((resolve, reject) => {
     (async () => {
@@ -89,5 +130,6 @@ module.exports = {
     _list: _list,
     _create: _create,
     _update: _update,
-    _delete: _delete
+    _delete: _delete,
+    _validate: _validate
 }
