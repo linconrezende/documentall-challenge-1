@@ -1,16 +1,21 @@
 <template>
    <v-container fill-height fluid>
-      <v-row>
-        <v-col cols="6" class="mx-auto" style="border: solid black 1px;">
-          <component v-if="actualStep && actualStep.component" :is="actualStep.component.name" v-bind="actualStep.component.props" />
+      <v-row style="margin: 10% 50px 10% 50px">
+        <v-col lg="6" class="mx-auto" style="border: solid black 1px;">
+          <component
+            v-if="actualStep && steps[actualStep].component"
+            :is="steps[actualStep].component.name"
+            v-bind="steps[actualStep].component.props"
+            @process="nextStep" />
         </v-col>
       </v-row>
     </v-container>
 </template>
 
 <script>
-import HelloWorld from "../components/HelloWorld";
-import UploadPhoneMessages from "../components/UploadPhoneMessages";
+import UploadPhoneMessages from '../components/UploadPhoneMessages'
+import ListOfFileAndPhoneMessages from '../components/ListOfFileAndPhoneMessages'
+import PhoneMessagesCreated from '../components/PhoneMessagesCreated'
 
 export default {
   name: "Home",
@@ -19,22 +24,32 @@ export default {
       steps: {
         1: {
           component: {
-            name: 'HelloWorld',
-            props: null
+            name: 'UploadPhoneMessages',
+            props: {}
+          }
+        },
+        2: {
+          component: {
+            name: 'ListOfFileAndPhoneMessages',
+            props: {
+              files: []
+            }
+          }
+        },
+        3: {
+          component: {
+            name: 'PhoneMessagesCreated',
+            props: {}
           }
         }
       },
-      actualStep: {
-        component: {
-          name: 'UploadPhoneMessages',
-          props: null
-        }
-      }
+      actualStep: 1
     }
   },
   components: {
-    HelloWorld,
-    UploadPhoneMessages
+    UploadPhoneMessages,
+    ListOfFileAndPhoneMessages,
+    PhoneMessagesCreated
   },
   created() {
     // var vm = this
@@ -48,6 +63,27 @@ export default {
       }).catch(error => {
         console.debug(error)
       })
+    },
+    nextStep(event) {
+      var vm = this
+      // event will contain information depending on the actuall step
+      console.debug(event)
+      if (!event) {
+        // cancel start over
+        vm.steps[2].component.props.files = []
+        vm.actualStep = 1
+      } else {
+        // prepare to the next step
+        switch (vm.actualStep) {
+          case 1:
+            vm.steps[2].component.props.files = event
+            vm.actualStep += 1
+            break
+          default:
+            vm.actualStep += 1
+            break
+        }
+      }
     }
   },
 };
